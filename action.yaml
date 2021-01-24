@@ -1,0 +1,36 @@
+name: 'Application Health Check'
+description: 'Argocd Application Health Check'
+inputs:
+  application:  # id of input
+    description: 'Name of the Application'
+    required: true
+    default: 'cluster-autoscaler'
+  servername:
+    description: 'Argocd server endpoint'
+    required: true
+  version:
+    description: 'Expected version'
+    required: true
+    default: '1.0'
+  username:
+    description: 'Argocd User Name'
+    required: true
+    default: 'admin'
+  password:
+    description: 'Argocd Password'
+    required: true
+outputs:
+  HealthStatus: 
+    description: "Application Health Status"
+    value: ${{ steps.random-number-generator.outputs.random-id }}
+runs:
+  using: "composite"
+  steps: 
+    - id: install-argocd-cli
+      run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64; chmod +x /usr/local/bin/argocd
+      shell: bash
+    - id: login
+      run: /usr/local/bin/argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
+      shell: bash
+    - run: ${{ github.action_path }}/healthcheck.sh ${{ inputs.application }}
+      shell: bash
