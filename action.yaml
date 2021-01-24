@@ -22,15 +22,16 @@ inputs:
 outputs:
   HealthStatus: 
     description: "Application Health Status"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+    value: ${{ steps.app-health.outputs.status }}
 runs:
   using: "composite"
   steps: 
     - id: install-argocd-cli
-      run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64; chmod +x /usr/local/bin/argocd
+      run: curl -sSL -o ./argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64; chmod +x ./argocd
       shell: bash
     - id: login
-      run: /usr/local/bin/argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
+      run: ./argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
       shell: bash
-    - run: ${{ github.action_path }}/healthcheck.sh ${{ inputs.application }}
+    - id: app-health
+      run: echo "::set-output name=status::$(${{ github.action_path }}/healthcheck.sh ${{ inputs.application }})"
       shell: bash
