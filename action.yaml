@@ -1,23 +1,25 @@
 name: 'Application Health Check'
 description: 'Argocd Application Health Check'
 inputs:
-  application:  # id of input
-    description: 'Name of the Application'
-    required: true
-    default: 'cluster-autoscaler'
+  argocd-cli-version:
+    description: 'argocd-cli-version'
+    required: false
+    default: 'v1.8.3'
   servername:
-    description: 'Argocd server endpoint'
+    description: 'argocd server endpoint'
     required: true
-  version:
-    description: 'Expected version'
-    required: true
-    default: '1.0'
   username:
-    description: 'Argocd User Name'
-    required: true
+    description: 'argocd username'
+    required: false
     default: 'admin'
   password:
-    description: 'Argocd Password'
+    description: 'argocd password'
+    required: true
+  application:  # id of input
+    description: 'Name of the application to Health check'
+    required: true
+  revision:
+    description: 'Git commit revision'
     required: true
 outputs:
   HealthStatus: 
@@ -27,7 +29,7 @@ runs:
   using: "composite"
   steps: 
     - id: install-argocd-cli
-      run: ${{ github.action_path }}/install_argocd_cli.sh
+      run: ${{ github.action_path }}/install_argocd_cli.sh ${{ inputs.argocd-cli-version }}
       shell: bash
     - id: login
       run: /tmp/argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
