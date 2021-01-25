@@ -1,2 +1,2 @@
-#!/bin/sh
-/usr/local/bin/argocd app get $1
+#!/bin/sh -x
+${github.action_path}/argocd app get $1
