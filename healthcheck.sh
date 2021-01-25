@@ -1,2 +1,2 @@
 #!/bin/sh -x
-${github.action_path}/argocd app get $1
+/tmp/argocd app get $1

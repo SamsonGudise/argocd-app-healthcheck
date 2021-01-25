@@ -30,7 +30,7 @@ runs:
       run: ${{ github.action_path }}/install_argocd_cli.sh
       shell: bash
     - id: login
-      run: ${{ github.action_path }}/argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
+      run: /tmp/argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
       shell: bash
     - id: health-check
       run: echo "::set-output name=status::$(${{ github.action_path }}/healthcheck.sh ${{ inputs.application }})"
