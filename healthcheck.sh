@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 if [ $# -ne 2 ]; then
 	echo "err: health_check.sh application_name revision"
