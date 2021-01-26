@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $# -ne 2 ]; then
-	echo "health_check.sh application_name revision"
+	echo "err: health_check.sh application_name revision"
 	exit 2
 fi
 x=0

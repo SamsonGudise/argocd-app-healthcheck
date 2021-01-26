@@ -35,5 +35,5 @@ runs:
       run: /tmp/argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
       shell: bash
     - id: health-check
-      run: echo "::set-output name=status::$(${{ github.action_path }}/healthcheck.sh ${{ inputs.application }})"
+      run: echo "::set-output name=status::$(${{ github.action_path }}/healthcheck.sh ${{ inputs.application }} ${{ inputs.revision }})"
       shell: bash
