@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 ## Check  https://argoproj.github.io/argo-cd/cli_installation/
 ## For latest version and install instructions
 
