@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 if [ $# -ne 2 ]; then
 	echo "err: health_check.sh application_name revision"
@@ -32,8 +32,8 @@ if [ $? -eq 0 ]; then
 		echo "$1 Successfully deployed by argocd"
 		exit 0
 	fi
-	echo "ERR: Deployed Application not stable, please check and rollback ... "
-	exit 1
+	echo "ERR: Deployed Application not stable, run [git revert $2] ... "
+	exit 2
 fi
 echo "ERR: Argocd Unable to sync latest changes, check argocd"
 exit 1
