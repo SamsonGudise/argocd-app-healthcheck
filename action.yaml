@@ -21,6 +21,11 @@ inputs:
   revision:
     description: 'Git commit revision'
     required: true
+outputs:
+  returncode:
+    description: "Application Health Status"
+    value: ${{ steps.health-check.outputs.status }}
+
 runs:
   using: "composite"
   steps: 
@@ -31,5 +36,5 @@ runs:
       run: /tmp/argocd --grpc-web login ${{ inputs.servername }} --username=${{ inputs.username }} --password=${{ inputs.password }}
       shell: bash
     - id: health-check
-      run: ${{ github.action_path }}/healthcheck.sh ${{ inputs.application }} ${{ inputs.revision }}
+      run: echo "::set-output name=status::$(${{ github.action_path }}/healthcheck.sh ${{ inputs.application }} ${{ inputs.revision }})"
       shell: bash
